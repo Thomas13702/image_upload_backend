@@ -46,4 +46,18 @@ router.post("/image-upload", singleUploadCtrl, async (req, res) => {
   }
 });
 
+router.get("/allPosts", async (req, res) => {
+  try {
+    const allPosts = await Post.find({});
+
+    if (!allPosts) {
+      return res.status(400).json({ msg: "No posts found" });
+    }
+
+    res.json(allPosts);
+  } catch (err) {
+    return res.status(422).send({ message: e.message });
+  }
+});
+
 module.exports = router;
