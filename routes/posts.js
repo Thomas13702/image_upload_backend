@@ -24,16 +24,18 @@ const singleUploadCtrl = (req, res, next) => {
 
 router.post("/image-upload", singleUploadCtrl, async (req, res) => {
   try {
+    console.log(req.body.text);
     if (!req.file) {
       throw new Error("Image is not presented ");
     }
 
     const file64 = formatBufferTo64(req.file);
     const uploadResult = await cloudinaryUpload(file64.content);
-    console.log(uploadResult);
+    //console.log(uploadResult);
 
     const newPost = new Post({
       url: uploadResult.url,
+      comment: req.body.text,
     });
 
     const post = await newPost.save();
